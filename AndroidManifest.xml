@@ -15,21 +15,18 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name=".BootActivity"
-            android:label="@string/app_name"
-            android:theme="@android:style/Theme.Holo.Light" >
+            android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name="com.example.helloworld.LoginActivity"
-            android:theme="@android:style/Theme.Holo.Light" >
+        <activity android:name="com.example.helloworld.LoginActivity" >
         </activity>
-        <activity
-            android:name="com.example.helloworld.RegisterActivity"
-            android:theme="@android:style/Theme.Holo.Light" >
+        <activity android:name="com.example.helloworld.RegisterActivity" >
+        </activity>
+        <activity android:name="com.example.helloworld.HelloWorldActivity" >
         </activity>
     </application>
 
