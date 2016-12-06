@@ -1,7 +1,7 @@
 package com.example.helloworld;
 
-import com.example.helloworld.fragments.inputcell.PictureInputCellFragment;
-import com.example.helloworld.fragments.inputcell.SimpleTextInputCellFragment;
+import com.example.helloworld.fragments.inputcells.PictureInputCellFragment;
+import com.example.helloworld.fragments.inputcells.SimpleTextInputCellFragment;
 
 import android.app.Activity;
 import android.os.Bundle;

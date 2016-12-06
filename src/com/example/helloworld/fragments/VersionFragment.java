@@ -3,7 +3,6 @@ package com.example.helloworld.fragments;
 import com.example.helloworld.R;
 
 import android.app.Fragment;
-import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;

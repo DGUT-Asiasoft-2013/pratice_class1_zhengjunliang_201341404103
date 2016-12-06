@@ -1,27 +1,20 @@
-package com.example.helloworld.fragments.inputcell;
-
-import java.security.MessageDigestSpi;
+package com.example.helloworld.fragments.inputcells;
 
 import com.example.helloworld.R;
 
-import android.R.integer;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class PictureInputCellFragment extends Fragment {
 	

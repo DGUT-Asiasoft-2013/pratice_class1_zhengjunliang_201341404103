@@ -26,34 +26,34 @@
                 android:id="@+id/input_account"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                class="com.example.helloworld.fragments.inputcell.SimpleTextInputCellFragment"
+                class="com.example.helloworld.fragments.inputcells.SimpleTextInputCellFragment"
                 tools:layout="@layout/fragment_inputcell_simpletext" />
 
              <fragment
                 android:id="@+id/input_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                class="com.example.helloworld.fragments.inputcell.SimpleTextInputCellFragment"
+                class="com.example.helloworld.fragments.inputcells.SimpleTextInputCellFragment"
                 tools:layout="@layout/fragment_inputcell_simpletext" />
             
             <fragment
                 android:id="@+id/input_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                class="com.example.helloworld.fragments.inputcell.SimpleTextInputCellFragment"
+                class="com.example.helloworld.fragments.inputcells.SimpleTextInputCellFragment"
                 tools:layout="@layout/fragment_inputcell_simpletext" />
 
             <fragment
                 android:id="@+id/input_password_repeat"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                class="com.example.helloworld.fragments.inputcell.SimpleTextInputCellFragment"
+                class="com.example.helloworld.fragments.inputcells.SimpleTextInputCellFragment"
                 tools:layout="@layout/fragment_inputcell_simpletext" />
             <fragment
                 android:id="@+id/input_picture"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                class="com.example.helloworld.fragments.inputcell.PictureInputCellFragment"
+                class="com.example.helloworld.fragments.inputcells.PictureInputCellFragment"
                 tools:layout="@layout/fragment_inputcell_picture" />
 
             <Button

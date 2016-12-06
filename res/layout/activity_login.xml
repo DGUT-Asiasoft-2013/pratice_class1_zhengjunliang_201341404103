@@ -17,15 +17,16 @@
         android:id="@+id/input_account"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        class="com.example.helloworld.fragments.inputcell.SimpleTextInputCellFragment" />
+        class="com.example.helloworld.fragments.inputcells.SimpleTextInputCellFragment" />
 
     <fragment
         android:id="@+id/input_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        class="com.example.helloworld.fragments.inputcell.SimpleTextInputCellFragment" />
+        class="com.example.helloworld.fragments.inputcells.SimpleTextInputCellFragment" />
 
     <TextView
+        android:id="@+id/btn_forgot_password"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="right"
