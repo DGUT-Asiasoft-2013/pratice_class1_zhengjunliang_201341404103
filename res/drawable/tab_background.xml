@@ -4,6 +4,6 @@
     <item android:state_selected="true"><shape android:shape="rectangle">
             <solid android:color="#33ffffff" />
         </shape></item>
-    <item android:drawable="@android:color/transparent"></item>
+    <item android:drawable="@android:color/transparent"></item> 
 
 </selector> 

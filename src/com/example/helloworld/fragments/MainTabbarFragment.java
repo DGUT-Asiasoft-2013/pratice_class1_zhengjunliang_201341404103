@@ -35,7 +35,7 @@ public class MainTabbarFragment extends Fragment {
 
 				@Override
 				public void onClick(View v) {
-					onTabClicked(tab);
+					onTabClicked(tab); 
 
 				}
 			});
