@@ -30,6 +30,6 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="10dp"
         class="com.example.helloworld.fragments.VersionFragment"
-        tools:layout="@layout/fragment_version" />
+        tools:layout="@layout/fragment_widget_version" />
 
 </RelativeLayout>
