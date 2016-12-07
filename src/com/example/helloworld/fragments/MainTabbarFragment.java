@@ -1,8 +1,11 @@
 package com.example.helloworld.fragments;
 
+import com.example.helloworld.FeedContentActivity;
+import com.example.helloworld.NewContentActivity;
 import com.example.helloworld.R;
 
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,6 +42,15 @@ public class MainTabbarFragment extends Fragment {
 				}
 			});
 		}
+		
+		btnNew.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				goNewContent();
+				
+			}
+		});
 
 
 
@@ -74,5 +86,12 @@ public class MainTabbarFragment extends Fragment {
 		if(onTabSelectedListener!=null && selectedIndex>=0){
 			onTabSelectedListener.onTabSelected(selectedIndex);
 		}
+	}
+	
+	void goNewContent(){
+		Intent itnt = new Intent(getActivity(),NewContentActivity.class);
+		startActivity(itnt);
+		
+		getActivity().overridePendingTransition(0,R.anim.slide_in_bottom);
 	}
 }
