@@ -7,7 +7,7 @@
         android:id="@+id/navbar"
         android:layout_width="match_parent"
         android:layout_height="44dp"
-        android:background="@android:color/white" >
+        android:background="@drawable/feeds_bar_title_bg" >
 
         <TextView
             android:layout_width="wrap_content"

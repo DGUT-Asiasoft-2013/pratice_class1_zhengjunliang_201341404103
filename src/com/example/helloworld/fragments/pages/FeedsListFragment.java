@@ -65,12 +65,12 @@ public class FeedsListFragment extends Fragment {
 
 			if(convertView==null){
 				LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-				view = inflater.inflate(android.R.layout.simple_list_item_1, null);	
+				view = inflater.inflate(R.layout.fragment_page_feed_list_item, null);	
 			}else{
 				view = convertView;
 			}
 
-			TextView text1 = (TextView) view.findViewById(android.R.id.text1);
+			TextView text1 = (TextView) view.findViewById(R.id.feed_list_item);
 			text1.setText(data[position]);
 
 			return view;

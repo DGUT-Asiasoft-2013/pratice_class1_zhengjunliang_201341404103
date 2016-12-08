@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <translate xmlns:android="http://schemas.android.com/apk/res/android"
-    android:ordering="together"
     android:fromYDelta="100%"
-    android:toYDelta="0" >    
+    android:ordering="together"
+    android:toYDelta="0" >
+
 </translate>

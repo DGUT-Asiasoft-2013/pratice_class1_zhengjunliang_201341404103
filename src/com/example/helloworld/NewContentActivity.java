@@ -13,13 +13,12 @@ public class NewContentActivity extends Activity {
 		findViewById(R.id.btn_send).setOnClickListener(new View.OnClickListener() {
 			
 			@Override
-			public void onClick(View v) {
+			public void onClick(View v) {				
 				finish();
 				overridePendingTransition(R.anim.slide_out_bottom,0);
 				
 			}
-		});
-		
+		});	
 		
 	}
 
