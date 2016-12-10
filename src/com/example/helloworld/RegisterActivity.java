@@ -5,6 +5,7 @@ import java.io.IOException;
 import com.example.helloworld.fragments.inputcells.PictureInputCellFragment;
 import com.example.helloworld.fragments.inputcells.SimpleTextInputCellFragment;
 import com.example.helloworld.MD5;
+import com.example.helloworld.api.Server;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -119,7 +120,7 @@ public class RegisterActivity extends Activity {
 
 			
 			
-			OkHttpClient client = new OkHttpClient();
+			OkHttpClient client = Server.getSharedClient();
 
 			//----------------
 			//创建存储图片
@@ -135,8 +136,7 @@ public class RegisterActivity extends Activity {
 			MultipartBody newBody = requestBody.build();
 			
 			//创建请求，包含地址，方法("GET","POST","PUT","DELETE")
-			Request request = new Request.Builder()
-					.url("http://172.27.0.47:8080/membercenter/api/register")
+			Request request = Server.requestBuilderWithApi("register")
 					.method("post", null)
 					.post(newBody)
 					.build();
