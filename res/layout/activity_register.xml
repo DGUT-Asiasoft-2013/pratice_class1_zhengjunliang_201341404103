@@ -3,14 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
-    
-    <View 
+
+    <View
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:focusable="true"
-        android:focusableInTouchMode="true"        
-        />
-
+        android:focusableInTouchMode="true" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -28,19 +26,21 @@
                 android:layout_height="wrap_content"
                 class="com.example.helloworld.fragments.inputcells.SimpleTextInputCellFragment"
                 tools:layout="@layout/fragment_inputcell_simpletext" />
+
             <fragment
                 android:id="@+id/input_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 class="com.example.helloworld.fragments.inputcells.SimpleTextInputCellFragment"
                 tools:layout="@layout/fragment_inputcell_simpletext" />
-             <fragment
+            
+            <fragment
                 android:id="@+id/input_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 class="com.example.helloworld.fragments.inputcells.SimpleTextInputCellFragment"
                 tools:layout="@layout/fragment_inputcell_simpletext" />
-            
+
             <fragment
                 android:id="@+id/input_password"
                 android:layout_width="match_parent"
@@ -54,8 +54,9 @@
                 android:layout_height="wrap_content"
                 class="com.example.helloworld.fragments.inputcells.SimpleTextInputCellFragment"
                 tools:layout="@layout/fragment_inputcell_simpletext" />
+
             <fragment
-                android:id="@+id/input_picture"
+                android:id="@+id/input_avatar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 class="com.example.helloworld.fragments.inputcells.PictureInputCellFragment"

@@ -24,10 +24,10 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class PasswordRecoverStep2Fragment extends Fragment {
+public class PasswordChangeFragment extends Fragment {
 	SimpleTextInputCellFragment fragPassword;
 	SimpleTextInputCellFragment fragPasswordRepeat;
-	SimpleTextInputCellFragment fragVerify;
+	SimpleTextInputCellFragment fragOldPassword;
 	View view;
 	
 	@Override
@@ -38,7 +38,7 @@ public class PasswordRecoverStep2Fragment extends Fragment {
 			
 			fragPassword = (SimpleTextInputCellFragment) getFragmentManager().findFragmentById(R.id.input_password);
 			fragPasswordRepeat = (SimpleTextInputCellFragment) getFragmentManager().findFragmentById(R.id.input_password_repeat);
-			fragVerify = (SimpleTextInputCellFragment) getFragmentManager().findFragmentById(R.id.input_verify);
+			fragOldPassword = (SimpleTextInputCellFragment) getFragmentManager().findFragmentById(R.id.input_verify);
 			
 			view.findViewById(R.id.btn_submit).setOnClickListener(new View.OnClickListener() {
 				
@@ -56,8 +56,8 @@ public class PasswordRecoverStep2Fragment extends Fragment {
 	public void onResume() {
 		super.onResume();
 		
-		fragVerify.setLabelText("验证码");
-		fragVerify.setHintText("输入验证码");
+		fragOldPassword.setLabelText("旧的密码");
+		fragOldPassword.setHintText("请输入旧的密码");
 		
 		fragPassword.setLabelText("新密码");
 		fragPassword.setHintText("输入新密码");
@@ -66,14 +66,10 @@ public class PasswordRecoverStep2Fragment extends Fragment {
 		fragPasswordRepeat.setHintText("再次输入新密码");
 	}
 	
-	void verifyLabelChange(){
-		fragVerify.setLabelText("旧的密码");
-		fragVerify.setHintText("请输入旧的密码");
-	}
 	
 	
-	public String getVerify(){
-		return fragVerify.getText().toString();
+	public String getOldPassword(){
+		return fragOldPassword.getText().toString();
 	}
 	
 	public String getPassword(){

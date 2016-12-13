@@ -1,12 +1,11 @@
 package com.example.helloworld;
 
 import java.io.IOException;
+import java.util.List;
 
 import com.example.helloworld.api.Server;
-import com.example.helloworld.entity.User;
+import com.example.helloworld.api.entity.User;
 import com.example.helloworld.fragments.inputcells.SimpleTextInputCellFragment;
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import android.app.Activity;
@@ -16,9 +15,13 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.MultiAutoCompleteTextView;
 import android.widget.Toast;
 import okhttp3.Call;
 import okhttp3.Callback;
+import okhttp3.Cookie;
+import okhttp3.CookieJar;
+import okhttp3.HttpUrl;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -31,11 +34,6 @@ public class LoginActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
-		
-
-
-		fragAccount = (SimpleTextInputCellFragment) getFragmentManager().findFragmentById(R.id.input_account);
-		fragPassword = (SimpleTextInputCellFragment) getFragmentManager().findFragmentById(R.id.input_password);
 
 		findViewById(R.id.btn_register).setOnClickListener(new View.OnClickListener() {
 
@@ -60,6 +58,9 @@ public class LoginActivity extends Activity {
 				goRecoverPassword();
 			}
 		});
+
+		fragAccount = (SimpleTextInputCellFragment) getFragmentManager().findFragmentById(R.id.input_account);
+		fragPassword = (SimpleTextInputCellFragment) getFragmentManager().findFragmentById(R.id.input_password);
 	}
 
 	@Override
@@ -79,99 +80,85 @@ public class LoginActivity extends Activity {
 	}
 
 	void goLogin(){
-		//		Intent itnt = new Intent(this, HelloWorldActivity.class);
-		//		startActivity(itnt);
-
-		String account = fragAccount.getText().toString();
-		String password = fragPassword.getText().toString();
-
-		// 以下为进度提示框
-		final ProgressDialog progressDialog = new ProgressDialog(LoginActivity.this);
-		progressDialog.setTitle("登录中");
-		progressDialog.setMessage("请稍后");
-		progressDialog.setCancelable(false); // 设置其不能取消
-		progressDialog.setCanceledOnTouchOutside(false);
-		// 开始
-		progressDialog.show();
-
-		// 创建客户端
 		OkHttpClient client = Server.getSharedClient();
 
-		// 把用户登录的信息传给服务器中标记好的String类型中
-		MultipartBody body = new MultipartBody
-				.Builder()
-				.setType(MultipartBody.FORM)
-				.addFormDataPart("account", account)
-				.addFormDataPart("password", MD5.getMD5(password))
+		MultipartBody requestBody = new MultipartBody.Builder()
+				.addFormDataPart("account", fragAccount.getText())
+				.addFormDataPart("passwordHash", MD5.getMD5(fragPassword.getText()))
 				.build();
 
-		// 创建请求
 		Request request = Server.requestBuilderWithApi("login")
-				.post(body)
+				.method("post", null)
+				.post(requestBody)
 				.build();
-			
-		// 客户端发送一个请求newCall（），然后enqueue()进去对列，最后Callback()发送回连接的成功与否的信息
-				client.newCall(request).enqueue(new Callback() {
 
-					@Override
-					public void onResponse(Call arg0, final Response arg1) throws IOException {
-						
-						
-						LoginActivity.this.runOnUiThread(new Runnable() {
+		final ProgressDialog dlg = new ProgressDialog(this);
+		dlg.setCancelable(false);
+		dlg.setCanceledOnTouchOutside(false);
+		dlg.setMessage("正在登陆");
+		dlg.show();
 
-							@Override
-							public void run() {
-								//获得解析数据
-								User user;
-								try {
-									progressDialog.dismiss();
-									ObjectMapper objectMapper=new ObjectMapper();
-									user = objectMapper.readValue(arg1.body().string(), User.class);
-									new AlertDialog.Builder(LoginActivity.this)
-									.setTitle("登录成功")
-									.setMessage(user.getName()+","+user.getAccount())
-									.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-										
-										@Override
-										public void onClick(DialogInterface dialog, int which) {
-											Intent itnt=new Intent(LoginActivity.this, HelloWorldActivity.class);
-											startActivity(itnt);
-											finish();
-										}
-									})
-									.show();
-								} catch (JsonParseException e) {
-									// TODO Auto-generated catch block
-									e.printStackTrace();
-								} catch (JsonMappingException e) {
-									// TODO Auto-generated catch block
-									e.printStackTrace();
-								} catch (IOException e) {
-									// TODO Auto-generated catch block
-									e.printStackTrace();
-								}
-							}
-						});
-					}
+		client.newCall(request).enqueue(new Callback() {
 
-					@Override
-					public void onFailure(Call arg0, final IOException arg1) {
-						LoginActivity.this.runOnUiThread(new Runnable() {
+			@Override
+			public void onResponse(final Call arg0, Response arg1) throws IOException {
 
-							@Override
-							public void run() {
-								progressDialog.dismiss();
-								Toast.makeText(LoginActivity.this, "登陆失败", Toast.LENGTH_LONG).show();
+				try{
+					final String responseString = arg1.body().string();
+					ObjectMapper mapper = new ObjectMapper();
+					final User user = mapper.readValue(responseString, User.class);
+					
+					runOnUiThread(new Runnable() {
+						public void run() {
+							dlg.dismiss();
+							
+							new AlertDialog.Builder(LoginActivity.this)
+							.setMessage("Hello,"+user.getName())
+							.setPositiveButton("OK", new DialogInterface.OnClickListener(){
+								@Override
+								public void onClick(DialogInterface dialog, int which) {
+									Intent itnt = new Intent(LoginActivity.this, HelloWorldActivity.class);
+									startActivity(itnt);	
+								}	
+							})
+							.show();		
+						}
+					});
+					
+				}catch(final Exception e){
+					e.printStackTrace();
+					runOnUiThread(new Runnable() {
+						public void run() {
+							dlg.dismiss();
+							
+							LoginActivity.this.onFailure(arg0, e);
+						}
+					});
+				}
+			}
 
-							}
-						});
+			@Override
+			public void onFailure(final Call arg0, final IOException arg1) {
+				runOnUiThread(new Runnable() {
+					public void run() {
+						dlg.dismiss();
+
+						LoginActivity.this.onFailure(arg0, arg1);
 					}
 				});
+			}
+		});
 	}
-	
 
-	
-	
+
+
+	void onFailure(Call arg0, Exception arg1) {
+		new AlertDialog.Builder(this)
+		.setTitle("请求失败")
+		.setMessage(arg1.getLocalizedMessage())
+		.setNegativeButton("好", null)
+		.show();
+	}
 
 	void goRecoverPassword(){
 		Intent itnt = new Intent(this, PasswordRecoverActivity.class);

@@ -1,88 +1,82 @@
-package com.example.helloworld;
+package com.example.helloworld.fragments;
 
 import java.io.IOException;
 
+import com.example.helloworld.HelloWorldActivity;
+import com.example.helloworld.LoginActivity;
+import com.example.helloworld.MD5;
+import com.example.helloworld.PasswordRecoverActivity;
+import com.example.helloworld.R;
 import com.example.helloworld.api.Server;
 import com.example.helloworld.api.entity.User;
-import com.example.helloworld.fragments.PasswordRecoverStep1Fragment;
-import com.example.helloworld.fragments.PasswordRecoverStep1Fragment.OnGoNextListener;
+import com.example.helloworld.fragments.PasswordChangeFragment.OnSubmitListener;
+import com.example.helloworld.fragments.inputcells.SimpleTextInputCellFragment;
+import com.example.helloworld.fragments.pages.MyProfileFragment;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.example.helloworld.fragments.PasswordRecoverStep2Fragment;
-import com.example.helloworld.fragments.PasswordRecoverStep2Fragment.OnSubmitListener;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 import okhttp3.Call;
 import okhttp3.Callback;
-import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class PasswordRecoverActivity extends Activity {
-
-	PasswordRecoverStep1Fragment step1 = new PasswordRecoverStep1Fragment();
-	PasswordRecoverStep2Fragment step2 = new PasswordRecoverStep2Fragment();
-	String email;
+public class PasswordChangeActivity extends Activity {
+	SimpleTextInputCellFragment fragPassword;
+	SimpleTextInputCellFragment fragPasswordRepeat;
+	SimpleTextInputCellFragment fragOldPassword;
+	PasswordChangeFragment fragPasswordChange = new PasswordChangeFragment();
+	String oldPassword;
 	String password;
 	String passwordRepeat;
-	
+	String account;
+
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.activity_password_recover);
-		
 
-		step1.setOnGoNextListener(new OnGoNextListener() {
+		fragPasswordChange.setOnSubmitListener(new OnSubmitListener() {
 
-			@Override
-			public void onGoNext() {
-				goStep2();
-			}
-		});
-		
-		step2.setOnSubmitListener(new OnSubmitListener() {
-			
 			@Override
 			public void onSubmit() {
 				changePassword();
 			}
 		});
-		
-		getFragmentManager().beginTransaction().replace(R.id.container, step1).commit();
+
+
+		getFragmentManager().beginTransaction().replace(R.id.container, fragPasswordChange).commit();
 	}
 
-	void goStep2(){
-		email = step1.getEmail();
-		getFragmentManager()
-		.beginTransaction()	
-		.setCustomAnimations(
-				R.animator.slide_in_right,
-				R.animator.slide_out_left,
-				R.animator.slide_in_left,
-				R.animator.slide_out_right)
-		.replace(R.id.container, step2)
-		.addToBackStack(null)
-		.commit();
+	@Override
+	protected void onResume() {
+		super.onResume();
+
 	}
-	
+
+
 	void changePassword(){
-		password = step2.getPassword();
-		passwordRepeat = step2.getPasswordRepeat();
-		
+		oldPassword = fragPasswordChange.getOldPassword();
+		password = fragPasswordChange.getPassword();
+		passwordRepeat = fragPasswordChange.getPasswordRepeat();
+
 		if(!password.equals(passwordRepeat)){
 
-			new AlertDialog.Builder(PasswordRecoverActivity.this)
+			new AlertDialog.Builder(PasswordChangeActivity.this)
 			.setMessage("新密码不一致")
 			.setIcon(android.R.drawable.ic_dialog_alert)
 			.setNegativeButton("好", null)
@@ -92,27 +86,28 @@ public class PasswordRecoverActivity extends Activity {
 		}
 
 		password = MD5.getMD5(password);
-		
-		
+		oldPassword = MD5.getMD5(oldPassword);
+
 		OkHttpClient client = Server.getSharedClient();
 
 		MultipartBody.Builder requestBodyBuilder = new MultipartBody.Builder()
 				.setType(MultipartBody.FORM)
-				.addFormDataPart("email", email)
-				.addFormDataPart("passwordHash", password);
+				.addFormDataPart("passwordHash", oldPassword)
+				.addFormDataPart("newPasswordHash", password);
 
 
-		Request request = Server.requestBuilderWithApi("passwordrecover")
+
+		Request request = Server.requestBuilderWithApi("passwordchange")
 				.method("post", null)
 				.post(requestBodyBuilder.build())
 				.build();
 
-		final ProgressDialog progressDialog = new ProgressDialog(PasswordRecoverActivity.this);
+		final ProgressDialog progressDialog = new ProgressDialog(PasswordChangeActivity.this);
 		progressDialog.setMessage("请稍候");
 		progressDialog.setCancelable(false);
 		progressDialog.setCanceledOnTouchOutside(false);
 		progressDialog.show();
-		
+
 		client.newCall(request).enqueue(new Callback() {
 
 			@Override
@@ -121,12 +116,12 @@ public class PasswordRecoverActivity extends Activity {
 				runOnUiThread(new Runnable() {
 					public void run() {
 						progressDialog.dismiss();
-						
+
 						try {
-							PasswordRecoverActivity.this.onResponse(arg0, responseString);
+							PasswordChangeActivity.this.onResponse(arg0, responseString);
 						} catch (Exception e) {
 							e.printStackTrace();
-							PasswordRecoverActivity.this.onFailure(arg0, e);
+							PasswordChangeActivity.this.onFailure(arg0, e);
 						}
 					}
 				});
@@ -137,8 +132,8 @@ public class PasswordRecoverActivity extends Activity {
 				runOnUiThread(new Runnable() {
 					public void run() {
 						progressDialog.dismiss();
-						
-						PasswordRecoverActivity.this.onFailure(arg0, arg1);
+
+						PasswordChangeActivity.this.onFailure(arg0, arg1);
 					}
 				});
 			}
@@ -150,7 +145,7 @@ public class PasswordRecoverActivity extends Activity {
 		.setTitle("注册成功")
 		.setMessage(responseBody)
 		.setPositiveButton("好", new DialogInterface.OnClickListener() {
-			
+
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				finish();

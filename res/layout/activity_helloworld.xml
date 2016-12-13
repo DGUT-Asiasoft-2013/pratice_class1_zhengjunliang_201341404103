@@ -16,7 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_gravity="bottom"
-        class="com.example.helloworld.fragments.MainTabbarFragment"
+        class="com.example.helloworld.fragments.widgets.MainTabbarFragment"
         tools:layout="@layout/fragment_widget_main_tabbar" />
 
 </FrameLayout>

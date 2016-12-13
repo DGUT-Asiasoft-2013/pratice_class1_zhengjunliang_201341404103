@@ -1,8 +1,16 @@
 package com.example.helloworld.api;
 
+import java.io.Serializable;
 import java.net.CookieManager;
 import java.net.CookiePolicy;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
+import okhttp3.Cookie;
+import okhttp3.CookieJar;
+import okhttp3.HttpUrl;
 import okhttp3.JavaNetCookieJar;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -10,7 +18,7 @@ import okhttp3.Request;
 public class Server {
 	static OkHttpClient client;
 	
-	static{
+	static {
 		CookieManager cookieManager = new CookieManager();
 		cookieManager.setCookiePolicy(CookiePolicy.ACCEPT_ALL);
 		
@@ -23,9 +31,10 @@ public class Server {
 		return client;
 	}
 	
+	public static String serverAddress = "http://172.27.0.30:8080/membercenter/"; 
+	
 	public static Request.Builder requestBuilderWithApi(String api){
 		return new Request.Builder()
-				.url("http://172.27.0.47:8080/membercenter/api/"+api);
+		.url(serverAddress+"api/"+api);
 	}
-
 }
