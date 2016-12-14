@@ -52,6 +52,35 @@
 
             </FrameLayout>
         </LinearLayout>
+        <LinearLayout 
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:gravity="center">
+            <Button 
+                android:id="@+id/btn_good"
+                android:layout_width="90dp"
+                android:layout_height="match_parent"
+                android:text="赞"
+                android:gravity="center"
+                android:textSize="20sp"/>
+            <Button 
+                android:id="@+id/btn_collect"
+                android:layout_width="90dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_gravity="center"
+                android:text="收藏"
+                android:gravity="center"
+                android:textSize="20sp"/>
+            <Button 
+                android:id="@+id/btn_comment"
+                android:layout_width="90dp"
+                android:layout_height="match_parent"
+                android:text="评论"
+                android:gravity="center"
+                android:textSize="20sp"/>
+        </LinearLayout>
 
         <TextView
             android:id="@+id/feed_content_text"
