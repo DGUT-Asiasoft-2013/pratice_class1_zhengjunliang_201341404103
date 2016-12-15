@@ -171,8 +171,8 @@ public class FeedListFragment extends Fragment {
 			Article article = data.get(position);
 
 			content.setText(article.getText());
-			avatar.load(Server.serverAddress + article.getAuthorAvatar());
-			author.setText(article.getAuthorName());
+			avatar.load(Server.serverAddress + article.getAuthor().getAvatar());
+			author.setText(article.getAuthor().getName());
 			title.setText(article.getTitle());
 			createDate.setText(new SimpleDateFormat("yyyy-MM-dd\nhh:mm:ss").format(article.getCreateDate()));
 

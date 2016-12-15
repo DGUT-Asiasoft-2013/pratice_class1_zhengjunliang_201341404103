@@ -57,7 +57,7 @@
             android:layout_height="44dp"
             android:gravity="center">
             <Button 
-                android:id="@+id/btn_good"
+                android:id="@+id/btn_like"
                 android:layout_width="90dp"
                 android:layout_height="match_parent"
                 android:text="赞"
