@@ -26,6 +26,8 @@ public class FeedContentActivity extends Activity {
 	Button btn_like;
 	boolean checklike;
 
+	String likeNum;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -63,7 +65,6 @@ public class FeedContentActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				checkLikes();
 				changeLikes();
 			}
 		});
@@ -73,14 +74,13 @@ public class FeedContentActivity extends Activity {
 	@Override
 	protected void onResume() {
 		super.onResume();
+		getLikesCount();
 		checkLikes();
-		
+
 	}
-	
-	String likesnum;
-	void checkLikes(){
+	void getLikesCount(){
 		Article article = (Article) getIntent().getSerializableExtra("article");
-		
+
 		Request requestLike = Server.requestBuilderWithApi("article/"+article.getId()+"/likes")
 				.build();
 		Server.getSharedClient().newCall(requestLike).enqueue(new Callback() {
@@ -89,21 +89,47 @@ public class FeedContentActivity extends Activity {
 			@Override
 			public void onResponse(Call arg0, final Response arg1) throws IOException {
 				final String num = arg1.body().string();
-				runOnUiThread(new Runnable() {					
-					public void run() {
-						likesnum = num;
-				
-					}
-				});
-							
+				likeNum = num;
+//				runOnUiThread(new Runnable() {					
+//					public void run() {
+//					
+//					}
+//				});
+
 			}
 
 			@Override
 			public void onFailure(Call arg0, IOException arg1) {
-				// TODO Auto-generated method stub
 
 			}
 		});
+
+	}
+	void checkLikes(){
+		Article article = (Article) getIntent().getSerializableExtra("article");
+
+		//		Request requestLike = Server.requestBuilderWithApi("article/"+article.getId()+"/likes")
+		//				.build();
+		//		Server.getSharedClient().newCall(requestLike).enqueue(new Callback() {
+		//
+		//
+		//			@Override
+		//			public void onResponse(Call arg0, final Response arg1) throws IOException {
+		//				final String num = arg1.body().string();
+		//				runOnUiThread(new Runnable() {					
+		//					public void run() {
+		//						likesnum = num;
+		//				
+		//					}
+		//				});
+		//							
+		//			}
+		//
+		//			@Override
+		//			public void onFailure(Call arg0, IOException arg1) {
+		//
+		//			}
+		//		});
 
 		Request request = Server.requestBuilderWithApi("article/"+article.getId()+"/isliked")
 				.get()
@@ -119,23 +145,21 @@ public class FeedContentActivity extends Activity {
 						try {
 							if(arg1.body().string().equals("true")){
 								checklike = true;
-								btn_like.setText("ÒÑÔÞ("+likesnum+")");
+								btn_like.setText("ÒÑÔÞ("+likeNum+")");
 							}else{
 								checklike = false;
-								btn_like.setText("ÔÞ("+likesnum+")");
+								btn_like.setText("ÔÞ("+likeNum+")");
 							}
 						} catch (IOException e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}	
 					}
 				});
-							
+
 			}
 
 			@Override
 			public void onFailure(Call arg0, IOException arg1) {
-				// TODO Auto-generated method stub
 
 			}
 		});
@@ -157,10 +181,9 @@ public class FeedContentActivity extends Activity {
 
 			@Override
 			public void onResponse(Call arg0, Response arg1) throws IOException {
-				final String responseBody = arg1.body().string();
-
 				runOnUiThread(new Runnable() {
 					public void run() {
+						getLikesCount();
 						checkLikes();
 					}
 				});

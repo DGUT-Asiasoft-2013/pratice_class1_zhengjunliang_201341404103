@@ -64,12 +64,7 @@ public class SearchPageFragment extends Fragment {
 				}
 			});
 
-			view.findViewById(R.id.btn_search).setOnClickListener(new View.OnClickListener() {				
-				@Override
-				public void onClick(View v) {
-					search();					
-				}
-			});
+			
 		}
 		return view;
 	}
@@ -85,6 +80,12 @@ public class SearchPageFragment extends Fragment {
 	@Override
 	public void onResume() {
 		super.onResume();
+		view.findViewById(R.id.btn_search).setOnClickListener(new View.OnClickListener() {				
+			@Override
+			public void onClick(View v) {
+				search();					
+			}
+		});
 	}
 
 	BaseAdapter listAdapter = new BaseAdapter() {
